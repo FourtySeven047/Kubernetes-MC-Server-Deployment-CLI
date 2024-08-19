@@ -3,6 +3,7 @@ package dev.thorben.cli.conversations.steps;
 import dev.thorben.cli.Conversation;
 import dev.thorben.cli.ConversationStep;
 
+import java.util.Scanner;
 import java.util.function.Function;
 
 public class InputConversationStep extends ConversationStep {
@@ -19,15 +20,18 @@ public class InputConversationStep extends ConversationStep {
 
     @Override
     public void printMessage() {
-        System.out.println("\n" + message);
+        System.out.print(message);
+        startInputScanner();
     }
 
     @Override
-    public void input(String input) {
-        if(onInput.apply(input)) {
+    public void startInputScanner() {
+        Scanner scanner = new Scanner(System.in);
+        if (onInput.apply(scanner.nextLine())) {
             conversation.next();
             return;
         }
-        System.out.print("\nInvalid Input. Try again: ");
+        System.out.print("Invalid Input. Try again: ");
+        startInputScanner();
     }
 }

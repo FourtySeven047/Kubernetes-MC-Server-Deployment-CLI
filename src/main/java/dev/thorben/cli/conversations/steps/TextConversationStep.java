@@ -18,7 +18,7 @@ public class TextConversationStep extends ConversationStep {
         conversation.next();
     }
 
-    public void input(String input) {
+    public void startInputScanner() {
 
     }
 }
