@@ -5,17 +5,15 @@ import dev.thorben.cli.ConversationStep;
 import dev.thorben.cli.conversations.steps.InputConversationStep;
 import dev.thorben.cli.conversations.steps.TextConversationStep;
 import dev.thorben.containers.VanillaContainerBuilder;
-import dev.thorben.core.Executable;
 import dev.thorben.services.minecraft.Vanilla;
 import io.kubernetes.client.openapi.models.V1Container;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Stack;
 import java.util.function.Function;
 
-public class VanillaContainerConfigurationConversation extends Conversation implements Executable {
+public class VanillaContainerConfigurationConversation extends Conversation {
 
     private final VanillaContainerBuilder builder = new VanillaContainerBuilder();
 
@@ -88,20 +86,5 @@ public class VanillaContainerConfigurationConversation extends Conversation impl
 
     public V1Container getContainer() {
         return builder.build();
-    }
-
-    @Override
-    public void execute() {
-        start();
-    }
-
-    @Override
-    public void processInput(String input) {
-        conversationStack.peek().startInputScanner();
-    }
-
-    @Override
-    public boolean isRunning() {
-        return isRunning;
     }
 }

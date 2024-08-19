@@ -4,14 +4,13 @@ import dev.thorben.cli.Conversation;
 import dev.thorben.cli.ConversationStep;
 import dev.thorben.cli.conversations.steps.InputConversationStep;
 import dev.thorben.cli.conversations.steps.TextConversationStep;
-import dev.thorben.core.Executable;
 import dev.thorben.pods.VanillaPodBuilder;
 import io.kubernetes.client.openapi.models.V1Pod;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class VanillaPodConfigurationConversation extends Conversation implements Executable {
+public class VanillaPodConfigurationConversation extends Conversation  {
 
     private final VanillaPodBuilder builder = new VanillaPodBuilder();
 
@@ -64,20 +63,5 @@ public class VanillaPodConfigurationConversation extends Conversation implements
 
     public V1Pod getPod() {
         return builder.build();
-    }
-
-    @Override
-    public void execute() {
-        start();
-    }
-
-    @Override
-    public void processInput(String input) {
-        conversationStack.peek().startInputScanner();
-    }
-
-    @Override
-    public boolean isRunning() {
-        return isRunning;
     }
 }
