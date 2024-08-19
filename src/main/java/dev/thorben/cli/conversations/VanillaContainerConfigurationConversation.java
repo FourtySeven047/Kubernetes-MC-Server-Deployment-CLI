@@ -11,15 +11,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.function.Function;
 
 public class VanillaContainerConfigurationConversation extends Conversation {
 
     private final VanillaContainerBuilder builder = new VanillaContainerBuilder();
 
     private final Queue<ConversationStep> conversationStack = new LinkedList<>();
-
-    private boolean isRunning = false;
 
     public VanillaContainerConfigurationConversation() {
         super();
@@ -32,41 +29,31 @@ public class VanillaContainerConfigurationConversation extends Conversation {
             }
             return false;
         }, "Please enter your desired minecraft version: "));
-        conversationStack.add(new InputConversationStep(this, new Function<String, Boolean>() {
-            @Override
-            public Boolean apply(String s) {
-                if (StringUtils.isNumeric(s)) {
-                    builder.setMemory(s);
-                    return true;
-                }
-                return false;
+        conversationStack.add(new InputConversationStep(this, s -> {
+            if (StringUtils.isNumeric(s)) {
+                builder.setMemory(s);
+                return true;
             }
+            return false;
         }, "Please enter the amount of RAM you want to allocate to the container in Megabytes: "));
-        conversationStack.add(new InputConversationStep(this, new Function<String, Boolean>() {
-            @Override
-            public Boolean apply(String s) {
-                if (StringUtils.isNumeric(s)) {
-                    builder.setCpu(s);
-                    return true;
-                }
-                return false;
+        conversationStack.add(new InputConversationStep(this, s -> {
+            if (StringUtils.isNumeric(s)) {
+                builder.setCpu(s);
+                return true;
             }
+            return false;
         }, "Please enter the amount of CPU cores you want to allocate to the container: "));
-        conversationStack.add(new InputConversationStep(this, new Function<String, Boolean> () {
-            @Override
-            public Boolean apply(String s) {
-                if (StringUtils.isNumeric(s) && Integer.parseInt(s) > 0 && Integer.parseInt(s) < 65536) {
-                    builder.setPort(Integer.parseInt(s));
-                    return true;
-                }
-                return false;
+        conversationStack.add(new InputConversationStep(this, s -> {
+            if (StringUtils.isNumeric(s) && Integer.parseInt(s) > 0 && Integer.parseInt(s) < 65536) {
+                builder.setPort(Integer.parseInt(s));
+                return true;
             }
+            return false;
         }, "Please enter the port you want to assign: "));
     }
 
     @Override
     public void start() {
-        isRunning = true;
         conversationStack.peek().printMessage();
     }
 

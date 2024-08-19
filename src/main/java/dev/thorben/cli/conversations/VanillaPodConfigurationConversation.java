@@ -15,7 +15,6 @@ public class VanillaPodConfigurationConversation extends Conversation  {
     private final VanillaPodBuilder builder = new VanillaPodBuilder();
 
     private final Queue<ConversationStep> conversationStack = new LinkedList<>();
-    private boolean isRunning = false;
 
     public VanillaPodConfigurationConversation() {
         super();
@@ -43,7 +42,6 @@ public class VanillaPodConfigurationConversation extends Conversation  {
 
     @Override
     public void start() {
-        isRunning = true;
         conversationStack.peek().printMessage();
     }
 
