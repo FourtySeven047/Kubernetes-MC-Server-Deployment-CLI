@@ -10,6 +10,8 @@ import dev.thorben.services.minecraft.Vanilla;
 import io.kubernetes.client.openapi.models.V1Container;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 import java.util.function.Function;
 
@@ -17,22 +19,22 @@ public class VanillaContainerConfigurationConversation extends Conversation impl
 
     private final VanillaContainerBuilder builder = new VanillaContainerBuilder();
 
-    private final Stack<ConversationStep> conversationStack = new Stack<>();
+    private final Queue<ConversationStep> conversationStack = new LinkedList<>();
 
     private boolean isRunning = false;
 
     public VanillaContainerConfigurationConversation() {
         super();
-        conversationStack.push(new TextConversationStep(this, "Starting container configuration wizard..."));
-        conversationStack.push(new InputConversationStep(this, s -> !s.contains(" "), "Enter the name of your container: "));
-        conversationStack.push(new InputConversationStep(this, s -> {
+        conversationStack.add(new TextConversationStep(this, "Starting container configuration wizard..."));
+        conversationStack.add(new InputConversationStep(this, s -> !s.contains(" "), "Enter the name of your container: "));
+        conversationStack.add(new InputConversationStep(this, s -> {
             if (Vanilla.isValidVersion(s)) {
                 builder.setVersion(s);
                 return true;
             }
             return false;
         }, "Please enter your desired minecraft version: "));
-        conversationStack.push(new InputConversationStep(this, new Function<String, Boolean>() {
+        conversationStack.add(new InputConversationStep(this, new Function<String, Boolean>() {
             @Override
             public Boolean apply(String s) {
                 if (StringUtils.isNumeric(s)) {
@@ -42,7 +44,7 @@ public class VanillaContainerConfigurationConversation extends Conversation impl
                 return false;
             }
         }, "Please enter the amount of RAM you want to allocate to the container in Megabytes: "));
-        conversationStack.push(new InputConversationStep(this, new Function<String, Boolean>() {
+        conversationStack.add(new InputConversationStep(this, new Function<String, Boolean>() {
             @Override
             public Boolean apply(String s) {
                 if (StringUtils.isNumeric(s)) {
@@ -52,7 +54,7 @@ public class VanillaContainerConfigurationConversation extends Conversation impl
                 return false;
             }
         }, "Please enter the amount of CPU cores you want to allocate to the container: "));
-        conversationStack.push(new InputConversationStep(this, new Function<String, Boolean> () {
+        conversationStack.add(new InputConversationStep(this, new Function<String, Boolean> () {
             @Override
             public Boolean apply(String s) {
                 if (StringUtils.isNumeric(s) && Integer.parseInt(s) > 0 && Integer.parseInt(s) < 65536) {
@@ -71,8 +73,7 @@ public class VanillaContainerConfigurationConversation extends Conversation impl
     }
 
     public void next() {
-        System.out.print(conversationStack.size());
-        conversationStack.pop();
+        conversationStack.poll();
         if (!conversationStack.isEmpty()) {
             conversationStack.peek().printMessage();
         } else {
@@ -96,7 +97,7 @@ public class VanillaContainerConfigurationConversation extends Conversation impl
 
     @Override
     public void processInput(String input) {
-        conversationStack.peek().input(input);
+        conversationStack.peek().startInputScanner();
     }
 
     @Override
