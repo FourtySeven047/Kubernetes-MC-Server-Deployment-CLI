@@ -1,9 +1,7 @@
-package dev.thorben.cli.conversations;
+package dev.thorben.cli.conversations.steps;
 
 import dev.thorben.cli.Conversation;
 import dev.thorben.cli.ConversationStep;
-
-import java.util.function.Consumer;
 
 public class TextConversationStep extends ConversationStep {
 
