@@ -29,6 +29,7 @@ public class VanillaContainerConfigurationConversation extends Conversation {
             }
             return false;
         }, "Please enter your desired minecraft version: "));
+        /*
         conversationStack.add(new InputConversationStep(this, s -> {
             if (StringUtils.isNumeric(s)) {
                 builder.setMemory(s);
@@ -43,6 +44,7 @@ public class VanillaContainerConfigurationConversation extends Conversation {
             }
             return false;
         }, "Please enter the amount of CPU cores you want to allocate to the container: "));
+        */
         conversationStack.add(new InputConversationStep(this, s -> {
             if (StringUtils.isNumeric(s) && Integer.parseInt(s) > 0 && Integer.parseInt(s) < 65536) {
                 builder.setPort(Integer.parseInt(s));
