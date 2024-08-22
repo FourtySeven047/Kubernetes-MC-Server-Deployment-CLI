@@ -18,17 +18,21 @@ public class Config {
     }
 
     private static void createFile() throws IOException {
-        File file = new File("/etc/mc-server-deployer");
-        if (file.mkdir()) {
-            FileWriter myWriter = new FileWriter("/etc/mc-server-deployer/config.json");
-            JSONObject obj = new JSONObject();
-            obj.put("kubeconfig_path", "/etc/rancher/k3s/k3s.yaml");
-            obj.put("architecture", "x64");
-            myWriter.write(obj.toJSONString());
-            System.out.println("Configuration directory has been created successfully.");
-        } else {
-            System.out.println("Failed to create configuration directory. Are you root?");
+        File directory = new File("/etc/mc-server-deployer");
+        if (!directory.exists()) {
+            directory.mkdir();
         }
+        // Files.createDirectories(Paths.get("/etc/mc-server-deployer"));
+        FileWriter createFile = new FileWriter("/etc/mc-server-deployer/config.json");
+        createFile.write("");
+        createFile.close();
+        JSONObject obj = new JSONObject();
+        obj.put("kubeconfig_path", "/etc/rancher/k3s/k3s.yaml");
+        obj.put("architecture", "x64");
+        FileWriter myWriter = new FileWriter("/etc/mc-server-deployer/config.json");
+        myWriter.write(obj.toJSONString());
+        myWriter.close();
+        System.out.println("Configuration directory has been created successfully.");
     }
 
     public static void writeToFile(String key, String value) throws IOException, ParseException {
@@ -50,8 +54,8 @@ public class Config {
             JSONObject jsonObject = (JSONObject) obj;
             return (String) jsonObject.get(key);
         }
-        createFile();
-        return readFromFile(key);
+        //createFile();
+        return ""; //readFromFile(key);
     }
 
     private static boolean fileExists() {
