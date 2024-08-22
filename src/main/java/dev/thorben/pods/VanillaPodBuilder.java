@@ -27,7 +27,7 @@ public class VanillaPodBuilder {
             System.out.print("Building process stopped. No containers have been added to the pod.");
             return null;
         }
-        V1Deployment deployment = new V1Deployment()
+        return new V1Deployment()
                 .apiVersion("apps/v1")
                 .kind("Deployment")
                 .metadata(new V1ObjectMeta().name(podName))
@@ -39,8 +39,5 @@ public class VanillaPodBuilder {
                                 .metadata(new V1ObjectMeta()
                                         .putLabelsItem("app", "minecraft"))
                                 .spec(new V1PodSpec().containers(containers))));
-
-        //AppsV1Api apiInstance = new AppsV1Api();
-        return deployment; //apiInstance.createNamespacedDeployment("default", deployment, null, null, null, null);
     }
 }

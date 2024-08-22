@@ -19,7 +19,6 @@ public class VanillaPodConfigurationConversation extends Conversation  {
 
     public VanillaPodConfigurationConversation() {
         super();
-        VanillaContainerConfigurationConversation containerConfigurationConversation = new VanillaContainerConfigurationConversation();
         conversationStack.add(new TextConversationStep(this, "Starting pod configuration wizard..."));
         conversationStack.add(new InputConversationStep(this, s -> {
             if (s.contains(" ")) {
