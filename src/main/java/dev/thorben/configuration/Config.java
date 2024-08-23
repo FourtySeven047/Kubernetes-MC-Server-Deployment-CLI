@@ -9,7 +9,7 @@ import java.io.*;
 
 public class Config {
 
-    public static void init() throws IOException {
+    public static void init() {
         if (!fileExists()) {
             createFile();
             ConfigFileConfigurationConversation configFileConfigurationConversation = new ConfigFileConfigurationConversation();
@@ -17,45 +17,64 @@ public class Config {
         }
     }
 
-    private static void createFile() throws IOException {
+    public static void reconfigure() {
+        ConfigFileConfigurationConversation configFileConfigurationConversation = new ConfigFileConfigurationConversation();
+        configFileConfigurationConversation.start();
+    }
+
+    private static void createFile() {
         File directory = new File("/etc/mc-server-deployer");
         if (!directory.exists()) {
             directory.mkdir();
         }
-        // Files.createDirectories(Paths.get("/etc/mc-server-deployer"));
-        FileWriter createFile = new FileWriter("/etc/mc-server-deployer/config.json");
-        createFile.write("");
-        createFile.close();
-        JSONObject obj = new JSONObject();
-        obj.put("kubeconfig_path", "/etc/rancher/k3s/k3s.yaml");
-        obj.put("architecture", "x64");
-        FileWriter myWriter = new FileWriter("/etc/mc-server-deployer/config.json");
-        myWriter.write(obj.toJSONString());
-        myWriter.close();
-        System.out.println("Configuration directory has been created successfully.");
-    }
-
-    public static void writeToFile(String key, String value) throws IOException, ParseException {
-        if (fileExists()) {
-            JSONParser parser = new JSONParser();
-            Object obj = parser.parse(new FileReader("/etc/mc-server-deployer/config.json"));
-            JSONObject jsonObject = (JSONObject) obj;
-            jsonObject.replace(key, value);
+        try {
+            FileWriter createFile = new FileWriter("/etc/mc-server-deployer/config.json");
+            createFile.write("");
+            createFile.close();
+            JSONObject obj = new JSONObject();
+            obj.put("kubeconfig_path", "/etc/rancher/k3s/k3s.yaml");
+            obj.put("architecture", "x64");
+            obj.put("namespace", "minecraft");
             FileWriter myWriter = new FileWriter("/etc/mc-server-deployer/config.json");
-            myWriter.write(jsonObject.toJSONString());
+            myWriter.write(obj.toJSONString());
             myWriter.close();
+            System.out.println("Configuration directory has been created successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while creating the configuration file. Please check and verify the configuration file.");
+            e.printStackTrace();
         }
     }
 
-    public static String readFromFile(String key) throws IOException, ParseException {
-        if (fileExists()) {
-            JSONParser parser = new JSONParser();
-            Object obj = parser.parse(new FileReader("/etc/mc-server-deployer/config.json"));
-            JSONObject jsonObject = (JSONObject) obj;
-            return (String) jsonObject.get(key);
+    public static void writeToFile(String key, String value) {
+        try {
+            if (fileExists()) {
+                JSONParser parser = new JSONParser();
+                Object obj = parser.parse(new FileReader("/etc/mc-server-deployer/config.json"));
+                JSONObject jsonObject = (JSONObject) obj;
+                jsonObject.replace(key, value);
+                FileWriter myWriter = new FileWriter("/etc/mc-server-deployer/config.json");
+                myWriter.write(jsonObject.toJSONString());
+                myWriter.close();
+            }
+        } catch (IOException | ParseException e) {
+            System.out.println("An error occurred while writing to the configuration file. Please check and verify the configuration file.");
+            e.printStackTrace();
         }
-        //createFile();
-        return ""; //readFromFile(key);
+    }
+
+    public static String readFromFile(String key) {
+        try {
+            if (fileExists()) {
+                JSONParser parser = new JSONParser();
+                Object obj = parser.parse(new FileReader("/etc/mc-server-deployer/config.json"));
+                JSONObject jsonObject = (JSONObject) obj;
+                return (String) jsonObject.get(key);
+            }
+        } catch (IOException | ParseException e) {
+            System.out.println("An error occurred while reading the configuration file. Please check and verify the configuration file.");
+            e.printStackTrace();
+        }
+        return "";
     }
 
     private static boolean fileExists() {
