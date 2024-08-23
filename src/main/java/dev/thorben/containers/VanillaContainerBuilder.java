@@ -4,9 +4,6 @@ import dev.thorben.configuration.Config;
 import io.kubernetes.client.openapi.models.V1Container;
 import io.kubernetes.client.openapi.models.V1ContainerPort;
 import io.kubernetes.client.openapi.models.V1EnvVar;
-import org.json.simple.parser.ParseException;
-
-import java.io.IOException;
 
 public class VanillaContainerBuilder {
 
@@ -20,34 +17,18 @@ public class VanillaContainerBuilder {
         this.version = version;
         this.port = port;
 
-        try {
-            if (Config.readFromFile("architecture").equals("arm")) {
-                this.image = "fourtyseven/minecraft_server_arm:latest";
-            } else {
-                this.image = "fourtyseven/minecraft_server:latest";
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while reading the configuration file. Please check and verify the configuration file.");
-            throw new RuntimeException(e);
-        } catch (ParseException e) {
-            System.out.println("An error occurred while parsing the configuration file. Please check and verify the configuration file.");
-            throw new RuntimeException(e);
+        if (Config.readFromFile("architecture").equals("arm")) {
+            this.image = "fourtyseven/minecraft_server_arm:latest";
+        } else {
+            this.image = "fourtyseven/minecraft_server:latest";
         }
     }
 
     public VanillaContainerBuilder() {
-        try {
-            if (Config.readFromFile("architecture").equals("arm")) {
-                this.image = "fourtyseven/minecraft_server_arm:latest";
-            } else {
-                this.image = "fourtyseven/minecraft_server:latest";
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while reading the configuration file. Please check and verify the configuration file.");
-            throw new RuntimeException(e);
-        } catch (ParseException e) {
-            System.out.println("An error occurred while parsing the configuration file. Please check and verify the configuration file.");
-            throw new RuntimeException(e);
+        if (Config.readFromFile("architecture").equals("arm")) {
+            this.image = "fourtyseven/minecraft_server_arm:latest";
+        } else {
+            this.image = "fourtyseven/minecraft_server:latest";
         }
     }
 
