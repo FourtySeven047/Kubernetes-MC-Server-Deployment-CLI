@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dev.thorben</groupId>
-    <artifactId>Kubernetes-Minecraft-Server-Deployment-CLI</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>KMSD-CLI</artifactId>
+    <version>1.0.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
