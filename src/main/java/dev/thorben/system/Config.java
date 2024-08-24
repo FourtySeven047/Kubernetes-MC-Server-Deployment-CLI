@@ -1,4 +1,4 @@
-package dev.thorben.configuration;
+package dev.thorben.system;
 
 import dev.thorben.cli.conversations.ConfigFileConfigurationConversation;
 import org.json.simple.JSONObject;
@@ -40,8 +40,7 @@ public class Config {
             myWriter.close();
             System.out.println("Configuration directory has been created successfully.");
         } catch (IOException e) {
-            System.out.println("An error occurred while creating the configuration file. Please check and verify the configuration file.");
-            e.printStackTrace();
+            ErrorHandling.handle("An error occurred while creating the configuration file. Please check and verify the configuration file:", e);
         }
     }
 
@@ -57,8 +56,7 @@ public class Config {
                 myWriter.close();
             }
         } catch (IOException | ParseException e) {
-            System.out.println("An error occurred while writing to the configuration file. Please check and verify the configuration file.");
-            e.printStackTrace();
+            ErrorHandling.handle("An error occurred while creating the configuration file. Please check and verify the configuration file:", e);
         }
     }
 
@@ -71,8 +69,7 @@ public class Config {
                 return (String) jsonObject.get(key);
             }
         } catch (IOException | ParseException e) {
-            System.out.println("An error occurred while reading the configuration file. Please check and verify the configuration file.");
-            e.printStackTrace();
+            ErrorHandling.handle("An error occurred while creating the configuration file. Please check and verify the configuration file:", e);
         }
         return "";
     }
