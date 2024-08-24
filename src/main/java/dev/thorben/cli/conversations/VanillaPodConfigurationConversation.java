@@ -6,7 +6,6 @@ import dev.thorben.cli.conversations.steps.InputConversationStep;
 import dev.thorben.cli.conversations.steps.TextConversationStep;
 import dev.thorben.pods.VanillaPodBuilder;
 import io.kubernetes.client.openapi.models.V1Deployment;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -29,17 +28,16 @@ public class VanillaPodConfigurationConversation extends Conversation  {
             }
         }, "Enter the name of your pod: "));
         conversationStack.add(new InputConversationStep(this, s -> {
-            if (!StringUtils.isNumeric(s)) return false;
-            int amount = Integer.parseInt(s);
-            if (amount > 5 || amount < 1) return false;
-            for (int i = 0; i < amount; i++) {
-                VanillaContainerConfigurationConversation containerConversation = new VanillaContainerConfigurationConversation();
-                containerConversation.start();
-                builder.addContainer(containerConversation.getContainer());
-            }
-
+            // if (!StringUtils.isNumeric(s)) return false;
+            // int amount = Integer.parseInt(s);
+            // if (amount > 5 || amount < 1) return false;
+            //for (int i = 0; i < amount; i++) {
+            //}
+            VanillaContainerConfigurationConversation containerConversation = new VanillaContainerConfigurationConversation();
+            containerConversation.start();
+            builder.addContainer(containerConversation.getContainer());
             return true;
-        }, "Please enter the amount of containers you want to add to the pod (1-5): "));
+        }, "Please enter the amount of containers you want to add to the pod (1): "));
         conversationStack.add(new TextConversationStep(this, "Pod configuration has been finished."));
     }
 
