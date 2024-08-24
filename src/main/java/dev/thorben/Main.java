@@ -57,7 +57,7 @@ public class Main {
             }
             return;
         } else if (args[0].equals("ps")) {
-            DeploymentManager.listActiveDeployments().forEach(System.out::println);
+            DeploymentManager.printActiveDeployments();
             return;
         }
         System.out.println("Command not recognized. Exiting...");
