@@ -54,6 +54,14 @@ After that you will be guided through the configuration wizard. As soon as you h
 
 Coming soon...
 
+## Commands
+
+To see all available commands run the following command:
+
+```bash
+  sudo java -jar KMSD-CLI-1.0.0-jar-with-dependencies.jar help
+```
+
 ## Authors
 
 - [@FourtySeven047](https://www.github.com/fourtyseven047)
