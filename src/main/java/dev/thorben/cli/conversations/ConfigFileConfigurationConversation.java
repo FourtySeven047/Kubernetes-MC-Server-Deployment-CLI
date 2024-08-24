@@ -4,7 +4,7 @@ import dev.thorben.cli.Conversation;
 import dev.thorben.cli.ConversationStep;
 import dev.thorben.cli.conversations.steps.InputConversationStep;
 import dev.thorben.cli.conversations.steps.TextConversationStep;
-import dev.thorben.configuration.Config;
+import dev.thorben.system.Config;
 
 import java.util.LinkedList;
 import java.util.Queue;

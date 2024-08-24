@@ -1,6 +1,6 @@
 package dev.thorben.containers;
 
-import dev.thorben.configuration.Config;
+import dev.thorben.system.Config;
 import io.kubernetes.client.openapi.models.V1Container;
 import io.kubernetes.client.openapi.models.V1ContainerPort;
 import io.kubernetes.client.openapi.models.V1EnvVar;

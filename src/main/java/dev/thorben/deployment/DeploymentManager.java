@@ -1,11 +1,13 @@
 package dev.thorben.deployment;
 
-import dev.thorben.configuration.Config;
+import dev.thorben.system.Config;
+import dev.thorben.system.ErrorHandling;
 import io.kubernetes.client.Copy;
 import io.kubernetes.client.openapi.apis.AppsV1Api;
 import io.kubernetes.client.openapi.models.V1Deployment;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeploymentManager {
@@ -15,7 +17,7 @@ public class DeploymentManager {
         try {
             apiInstance.createNamespacedDeployment(Config.readFromFile("namespace"), deployment, null, null, null, null);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ErrorHandling.handle("An error occurred while deploying the pod:", e);
         }
     }
 
@@ -25,8 +27,9 @@ public class DeploymentManager {
             //V1Pod pod = (V1Pod) apiInstance.listNamespacedDeployment(Config.readFromFile("namespace"), null, null, null, null, null, null, null, null, null, null).getItems().get(0);
             return apiInstance.listNamespacedDeployment(Config.readFromFile("namespace"), null, null, null, null, null, null, null, null, null, null).getItems();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            ErrorHandling.handle("An error occurred while fetching the active deployments:", e);
         }
+        return new ArrayList<>();
     }
 
     public static void printActiveDeployments() {
@@ -46,7 +49,7 @@ public class DeploymentManager {
             Copy copy = new Copy();
             copy.copyFileToPod(namespace, pod, container, srcPath, destPath);
         } catch (Exception e) {
-            System.out.println("An error occurred while copying the file to the pod.");
+            ErrorHandling.handle("An error occurred while copying the file to the pod:", e);
         }
     }
 }

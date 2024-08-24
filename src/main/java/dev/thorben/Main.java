@@ -1,8 +1,9 @@
 package dev.thorben;
 
 import dev.thorben.cli.conversations.VanillaPodConfigurationConversation;
-import dev.thorben.configuration.Config;
+import dev.thorben.system.Config;
 import dev.thorben.deployment.DeploymentManager;
+import dev.thorben.system.ErrorHandling;
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.Configuration;
@@ -34,6 +35,7 @@ public class Main {
                 v1Namespace.setKind("Namespace");
                 api.createNamespace(v1Namespace, null, null, null, null);
             } catch (ApiException e) {
+                ErrorHandling.handle("An error occurred while creating the namespace:", e);
                 e.printStackTrace();
             }
             return Optional.empty();
