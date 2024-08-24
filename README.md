@@ -38,9 +38,21 @@ No deployments found. Exiting...
 ```
 Do not worry about the SLF4J warnings. They are not relevant for the functionality of the CLI.
 
-## Usage 
+## Creating a Deployment
 
-Coming soon!
+### Vanilla Server
+
+To create a vanilla server deployment you need to run the following command:
+
+```bash
+  sudo java -jar KMSD-CLI-1.0.0-jar-with-dependencies.jar deploy vanilla
+```
+
+After that you will be guided through the configuration wizard. As soon as you have finished the wizard the deployment will be created and started.
+
+### Other Server Types
+
+Coming soon...
 
 ## Authors
 
