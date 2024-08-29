@@ -18,17 +18,28 @@ import java.util.List;
 import java.util.Optional;
 
 public class Main {
+
+
     public static void main(String[] args) {
-        //ApiClient client = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader("/etc/rancher/k3s/k3s.yaml"))).build();
         Config.init();
+        CommandFactory.getCommand(args).execute(args);
+    }
+
+    public static void initKubernetes() {
+        initAPI();
+        initNamespace();
+    }
+
+    private static void initAPI() {
         try {
             ApiClient client = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(new FileReader(Config.readFromFile("kubeconfig_path")))).build();
             Configuration.setDefaultApiClient(client);
         } catch (Exception e) {
             ErrorHandling.handle("An error occurred while loading the kubeconfig file:", e);
-            return;
         }
+    }
 
+    private static void initNamespace() {
         try {
             CoreV1Api api = new CoreV1Api();
             List<V1Namespace> namespaces = api.listNamespace(null, null, null, null, null, null, null, null, null, null).getItems();
@@ -48,9 +59,6 @@ public class Main {
             });
         } catch (ApiException e) {
             ErrorHandling.handle("An error occurred while the namespace creation:", e);
-            return;
         }
-
-        CommandFactory.getCommand(args).execute(args);
     }
 }
