@@ -28,11 +28,6 @@ public class VanillaPodConfigurationConversation extends Conversation  {
             }
         }, "Enter the name of your pod: "));
         conversationStack.add(new InputConversationStep(this, s -> {
-            // if (!StringUtils.isNumeric(s)) return false;
-            // int amount = Integer.parseInt(s);
-            // if (amount > 5 || amount < 1) return false;
-            //for (int i = 0; i < amount; i++) {
-            //}
             VanillaContainerConfigurationConversation containerConversation = new VanillaContainerConfigurationConversation();
             containerConversation.start();
             builder.addContainer(containerConversation.getContainer());

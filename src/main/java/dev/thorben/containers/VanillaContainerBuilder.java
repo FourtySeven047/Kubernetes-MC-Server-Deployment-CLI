@@ -10,7 +10,7 @@ public class VanillaContainerBuilder {
     private String name = "minecraft-server";
     private String version = "1.12.2";
     private Integer port = 25564;
-    private String image;
+    private final String image;
 
     public VanillaContainerBuilder(String name, String version, Integer port) {
         this.name = name;
