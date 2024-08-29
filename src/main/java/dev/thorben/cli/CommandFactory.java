@@ -11,10 +11,11 @@ public class CommandFactory {
         }
 
         if (args[0].equals("deploy") && args.length > 1) {
-            System.out.println("No deployment type provided. Exiting...");
             if (args[1].equals("vanilla")) {
                 return new VanillaDeploymentCommand();
             }
+            System.out.println("No deployment type provided. Exiting...");
+            return new EmptyCommand();
         } else if (args[0].equals("config") && args.length > 1) {
             if (args[1].equals("change")) {
                 Config.reconfigure();
