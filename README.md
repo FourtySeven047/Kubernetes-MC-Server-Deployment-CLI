@@ -62,6 +62,16 @@ To see all available commands run the following command:
   sudo java -jar KMSD-CLI-1.0.0-jar-with-dependencies.jar help
 ```
 
+Alternative you can use the following table to see all available commands:
+
+| Command           | Description                                                         |
+|-------------------|---------------------------------------------------------------------|
+| deploy vanilla    | Start the configuration wizard for a new vanilla server deployment. |
+| delete deployment | Delete a active deployment                                          |
+| config change     | Change configuration                                                |
+| ps                | Print the status of all active deployments                          |
+| help              | Show all available commands.                                        |
+
 ## Authors
 
 - [@FourtySeven047](https://www.github.com/fourtyseven047)

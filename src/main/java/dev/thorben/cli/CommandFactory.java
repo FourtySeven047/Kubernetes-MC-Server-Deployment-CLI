@@ -24,6 +24,10 @@ public class CommandFactory {
             return new ProcessStatusCommand();
         } else if (args[0].equals("help")) {
             return new HelpCommand();
+        } else if (args[0].equals("delete") && args.length > 1) {
+            if (args[1].equals("deployment")) {
+                return new DeleteDeploymentCommand();
+            }
         }
         return new EmptyCommand();
     }
