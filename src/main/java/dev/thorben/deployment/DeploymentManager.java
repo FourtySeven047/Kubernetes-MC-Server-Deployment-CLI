@@ -2,6 +2,7 @@ package dev.thorben.deployment;
 
 import dev.thorben.system.Config;
 import dev.thorben.system.ErrorHandling;
+import dev.thorben.system.TablePrinter;
 import io.kubernetes.client.Copy;
 import io.kubernetes.client.openapi.apis.AppsV1Api;
 import io.kubernetes.client.openapi.models.V1Deployment;
@@ -45,13 +46,19 @@ public class DeploymentManager {
     }
 
     public static void printActiveDeployments() {
-        if (getActiveDeployments().isEmpty()) {
+        if (!hasActiveDeployments()) {
             System.out.println("No deployments found. Exiting...");
             return;
         }
+        TablePrinter tablePrinter = new TablePrinter(List.of("Deployment", "Created", "Running Containers", "Id"));
         getActiveDeployments().forEach(deployment -> {
-            System.out.println("Deployment: " + deployment.getMetadata().getName());
-            deployment.getSpec().getTemplate().getSpec().getContainers().forEach(container -> System.out.println("\t" + container.getName()));
+            tablePrinter.addRow(List.of(
+                    deployment.getMetadata().getName(),
+                    deployment.getMetadata().getCreationTimestamp().toString(),
+                    deployment.getStatus().getReplicas() + "/" + deployment.getSpec().getReplicas(),
+                    deployment.getMetadata().getUid()
+            ));
+            tablePrinter.print();
         });
     }
 
@@ -61,15 +68,21 @@ public class DeploymentManager {
             return null;
         }
         System.out.println("Active Deployments:");
+        TablePrinter tablePrinter = new TablePrinter(List.of("Number", "Deployment", "Created", "Running Containers", "Id"));
         HashMap<String, V1Deployment> deploymentHashMap = new HashMap<>();
         final int[] i = {0};
         getActiveDeployments().forEach(deployment -> {
-            System.out.println("\t(" + i[0] + ") " + deployment.getMetadata().getName());
-            deployment.getSpec().getTemplate().getSpec().getContainers().forEach(container -> System.out.println("\t\t" + container.getName()));
-            deploymentHashMap.put(Integer.toString(i[0]), deployment);
+            tablePrinter.addRow(List.of(
+                    String.valueOf(i[0]),
+                    deployment.getMetadata().getName(),
+                    deployment.getMetadata().getCreationTimestamp().toString(),
+                    deployment.getStatus().getReplicas() + "/" + deployment.getSpec().getReplicas(),
+                    deployment.getMetadata().getUid()
+            ));
+            deploymentHashMap.put(String.valueOf(i[0]), deployment);
             i[0]++;
         });
-
+        tablePrinter.print();
         System.out.print("Please select a deployment by entering the corresponding number: ");
         Scanner scanner = new Scanner(System.in);
         String selection = scanner.next();
@@ -79,6 +92,10 @@ public class DeploymentManager {
             System.out.println("Invalid selection. Exiting...");
             return null;
         }
+    }
+
+    private static boolean hasActiveDeployments() {
+        return !getActiveDeployments().isEmpty() && getActiveDeployments() != null && !getActiveDeployments().contains(null);
     }
 
     // This will be supported in the future
