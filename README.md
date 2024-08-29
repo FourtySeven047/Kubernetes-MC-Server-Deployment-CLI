@@ -9,6 +9,7 @@ This projects is a simple CLI interface to quickly deploy multiple minecraft ser
 - Wide range of changeable settings to satisfy your individual needs (version, port, naming)
 - Functional on ARM and x64 machines
 - Minecraft Version support for 1.18.0 and up!
+- Delete deployments effortlessly
 - Fully automatic download of supported server jar files
 - Autonomous booting of deployments
 
@@ -53,6 +54,17 @@ After that you will be guided through the configuration wizard. As soon as you h
 ### Other Server Types
 
 Coming soon...
+
+## Deleting a Deployment
+
+Deleting a deployment is as easy as creating one. Just run the following command:
+
+```bash
+  sudo java -jar KMSD-CLI-1.0.0-jar-with-dependencies.jar delete deployment
+```
+
+After that you will see a list of all active deployments in a table. You need to select the deployment you want to delete by entering the number of the deployment. This number is shown in the first column of the table. After that you need to confirm the deletion by entering "yes" or "no". If you enter "yes" the deployment will be deleted. If you enter "no" the deletion will be canceled and you the CLI will exit.
+Then the deployment will be deleted.
 
 ## Commands
 
